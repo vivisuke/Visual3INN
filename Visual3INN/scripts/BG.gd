@@ -1,6 +1,7 @@
 extends ColorRect
 
 const NODE_RADIUS = 30.0
+const SYNAPSE_RADIUS = 5.0
 const Y_LINE = 40+20
 const LR_SPC = 60
 const TOP_SPC = 70
@@ -15,7 +16,7 @@ const Y_X1 = Y_1 + Y_DIFF
 const Y_X2 = Y_X1 + Y_DIFF
 const Y_X3 = Y_X2 + Y_DIFF
 const Y_ACT = (Y_X1+Y_X2)/2
-const X_WEIGHT = 120
+const X_WEIGHT = 140
 const X_AF = X_ACT+X_DIFF/2
 
 var initialized = false
@@ -53,6 +54,13 @@ func draw_circle_outline(pos: Vector2, radius, col, txt: String):
 	draw_arc(pos, radius, 0.0, 2*PI, 128, Color.BLACK, 0.75, true)
 	if !initialized:
 		add_label(pos, txt)
+func synapse_pos(input:Vector2, act:Vector2) -> Vector2:
+	var dx = act.x - input.x
+	var dy = act.y - input.y
+	var D = sqrt(dx*dx + dy*dy)
+	var x = act.x - dx * NODE_RADIUS / D;
+	var y = act.y - dy * NODE_RADIUS / D;
+	return Vector2(x, y)
 func _draw():
 	# エッジ
 	draw_line(Vector2(X_INPUT, Y_1), Vector2(X_ACT, Y_ACT), Color.DARK_GRAY)
@@ -67,6 +75,15 @@ func _draw():
 	draw_circle_outline(Vector2(X_INPUT, Y_X3), NODE_RADIUS, Color.WHITE, "x3")
 	draw_circle_outline(Vector2(X_ACT, Y_ACT), NODE_RADIUS, Color.WHITE, "a")
 	draw_circle_outline(Vector2(X_OUTPUT, Y_ACT), NODE_RADIUS, Color.WHITE, "y")
+	# シナプス部分
+	var pos = synapse_pos(Vector2(X_INPUT, Y_1), Vector2(X_ACT, Y_ACT))
+	draw_circle(pos, SYNAPSE_RADIUS, Color.GREEN)
+	pos = synapse_pos(Vector2(X_INPUT, Y_X1), Vector2(X_ACT, Y_ACT))
+	draw_circle(pos, SYNAPSE_RADIUS, Color.GREEN)
+	pos = synapse_pos(Vector2(X_INPUT, Y_X2), Vector2(X_ACT, Y_ACT))
+	draw_circle(pos, SYNAPSE_RADIUS, Color.GREEN)
+	pos = synapse_pos(Vector2(X_INPUT, Y_X3), Vector2(X_ACT, Y_ACT))
+	draw_circle(pos, SYNAPSE_RADIUS, Color.GREEN)
 	# 上部線
 	draw_line(Vector2(X_INPUT-NODE_RADIUS+5, Y_LINE), Vector2(X_ACT-45, Y_LINE), Color.BLACK)
 	draw_line(Vector2(X_ACT+5, Y_LINE), Vector2(X_OUTPUT+NODE_RADIUS+25, Y_LINE), Color.BLACK)

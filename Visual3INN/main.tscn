@@ -1,6 +1,7 @@
-[gd_scene load_steps=8 format=3 uid="uid://dnc36upok5iu"]
+[gd_scene load_steps=9 format=3 uid="uid://dnc36upok5iu"]
 
 [ext_resource type="Script" path="res://scripts/BG.gd" id="1_h8en3"]
+[ext_resource type="Script" path="res://scripts/main.gd" id="1_hvakb"]
 [ext_resource type="Texture2D" uid="uid://cxdyva45dvh5k" path="res://images/refresh_black.png" id="2_e8we7"]
 [ext_resource type="Texture2D" uid="uid://bdweaw2al2omp" path="res://images/refresh_gray.png" id="3_oegmm"]
 [ext_resource type="Texture2D" uid="uid://c0jn1uo51xqp7" path="res://images/first_page_black.png" id="4_p7t88"]
@@ -9,6 +10,7 @@
 [ext_resource type="Texture2D" uid="uid://bwu5cabap8j01" path="res://images/play_arrow_gray.png" id="7_e5ks0"]
 
 [node name="Main" type="Node2D"]
+script = ExtResource("1_hvakb")
 
 [node name="BG" type="ColorRect" parent="."]
 offset_right = 500.0
